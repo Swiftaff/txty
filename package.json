@@ -1,6 +1,6 @@
 {
   "name": "txty",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A basic language pack manager to make it easy to swap between languages in your node.js app.",
   "main": "index.js",
   "scripts": {
@@ -10,10 +10,7 @@
     "type": "git",
     "url": "https://github.com/Swiftaff/txty/"
   },
-  "keywords": [
-    "languages",
-    "internationalisation"
-  ],
+  "keywords": ["languages", "internationalisation"],
   "author": "Swiftaff",
   "license": "MIT"
 }
