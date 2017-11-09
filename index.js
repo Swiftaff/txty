@@ -31,7 +31,7 @@ module.exports = {
         }
       }
     }
-    //get relevant language dictionary
+    //get relevant language dictionary into this.txt
     this.getDictionary(this.options.lang);
 
     //debugging
@@ -42,7 +42,7 @@ module.exports = {
       console.dir(this.defaults);
       console.log(this.getItem("module_debug_end"));
     }
-    return;
+    return this.options;
   },
 
   getItem: function(thisitem) {
