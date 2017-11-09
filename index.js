@@ -13,6 +13,10 @@ module.exports = {
         module_debug_start: ["###Txty debug mode is on. "],
         module_debug_end: ["###Txty"],
         module_settings: ["Settings are..."],
+        module_no_ref: "No reference provided",
+        module_undefined: "Not a valid reference: ",
+        module_no_language: "No language defined",
+        module_no_dictionary: "No dictionary defined",
         module_test: "Test"
       }
     }
@@ -32,7 +36,8 @@ module.exports = {
       }
     }
     //get relevant language dictionary into this.txt
-    this.getDictionary(this.options.lang);
+    console.log("test " + this.defaults.lang);
+    this.txt = this.getDictionary(this.options.lang, this.defaults.lang);
 
     //debugging
     if (this.options.debug) {
@@ -45,16 +50,19 @@ module.exports = {
     return this.options;
   },
 
-  getItem: function(thisitem) {
+  getItem: function(thisitem, debug_override) {
     /* items in language files can be:
     *  type string (plain, debuggable items)
     *  type array (of 1 string) will not be modified during debugging, for use with e.g. URLs)
     */
+    if (typeof debug_override === "undefined") {
+      debug_override = true;
+    }
     var output = "";
     if (Array.isArray(this.txt[thisitem])) {
       return this.txt[thisitem][0];
     } else {
-      if (this.options.debug) {
+      if (this.options.debug && debug_override) {
         return this.options.debug_prefix + this.txt[thisitem] + this.options.debug_suffix;
       } else {
         return this.txt[thisitem];
@@ -67,17 +75,21 @@ module.exports = {
 
     //no reference
     if (arguments.length === 0) {
+      var err = this.defaults.dictionary.en.module_no_ref;
       if (this.options.debug) {
-        console.log("Language: No reference provided");
+        console.log(err);
+        return this.defaults.debug_prefix + err + this.defaults.debug_suffix;
       }
-      return;
+      return err;
 
-      //no valid reference
-    } else if (typeof this.getItem(ref) === "undefined") {
+      //not a valid reference
+    } else if (typeof this.getItem(ref, false) === "undefined") {
+      var err = this.defaults.dictionary.en.module_undefined + ref;
       if (this.options.debug) {
-        console.log("Language [" + ref + "] is not a valid reference");
+        console.log(err);
+        return this.defaults.debug_prefix + err + this.defaults.debug_suffix;
       }
-      return "***Language reference [" + ref + "] not found***";
+      return err;
 
       // return a valid reference
     } else {
@@ -85,11 +97,24 @@ module.exports = {
     }
   },
 
-  getDictionary: function(lang) {
+  getDictionary: function(lang, defaultlang) {
     if (typeof lang === "undefined") {
-      this.txt = this.defaults.dictionary[lang];
-    } else {
-      this.txt = this.options.dictionary[lang];
+      if (typeof defaultlang === "undefined") {
+        var err = "No language defined";
+        console.log(err);
+        return err;
+      }
+      lang = defaultlang;
     }
+
+    if (typeof this.options.dictionary[lang] === "undefined") {
+      if (typeof this.defaults.dictionary[lang] === "undefined") {
+        var err = "No dictionary defined";
+        console.log(err);
+        return err;
+      }
+      return this.defaults.dictionary[lang];
+    }
+    return this.options.dictionary[lang];
   }
 };
