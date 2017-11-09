@@ -10,10 +10,7 @@
     "type": "git",
     "url": "https://github.com/Swiftaff/txty/"
   },
-  "keywords": [
-    "languages",
-    "internationalisation"
-  ],
+  "keywords": ["languages", "internationalisation"],
   "author": "Swiftaff",
   "license": "MIT"
 }
