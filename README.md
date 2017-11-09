@@ -2,7 +2,7 @@
 
 A basic language pack manager to make it easy to swap out all the text in your node.js app interface.
 
-It doesn't tranlsate anything though :-) You will need to go get all the translations you need for your dictionary files yourself. There may be better alternatives out there, but this is a simple project with no bells and whistles.
+It doesn't translate anything though :-) You will need to go get all the translations you need for your dictionary files yourself. There may be better alternatives out there, but this is a simple project with no bells and whistles.
 
 * Just use it with a single language, to help keep the wording used within your interface elements consistent and easy to update in one place, e.g. `page_title: "Welcome to txty"` or `homepage_download_button: "Download Free Now!"`
 * Turn on debugging to [**highlight**] your **txty**-fied text in the front-end, so you can easily hunt down un-**txty**-fied text!
@@ -80,14 +80,27 @@ module.exports = kl: {
     goodbye: "DaH jImej"
 };
 ```
+
+Note: you may not want all your text to be changed during debug mode, such as URLs. Simply wrap the string in an array, and it will be ignored by the `debug_prefix` or `debug_suffix` wrappers, e.g.
+```
+"use strict";
+module.exports = en: {
+    admin_url: ["/myadmin/subpage"],//this will not be wrapped during debugging
+    admin_title: "My admin Subpage" //this will
+};
+```
+
 #### dictionary: default
-Includes a very basic starter!
+Includes a very basic starter! Keep these items in your language files for nice debug output.
 ```
 dictionary: {
     en: {
-        module_language: "Language set to ",
-        module_thislang: "English",
-        module_test: "Test"
+      module_language: ["Txty language set to "],
+      module_thislang: ["English"],
+      module_debug_start: ["###Txty debug mode is on. "],
+      module_debug_end: ["###Txty"],
+      module_settings: ["Settings are..."],
+      module_test: "Test"
     }
 }
 ```
@@ -102,6 +115,8 @@ You can change language at any time using init (see above)
 
 ### debug
 To help you identify any stray text which you may not yet have **txty**-fied, debug will wrap each txty.get() output with the prefix and suffix of your choice.
+
+Note: See above to exclude certain text from the debug wrapping.
 
 #### debug: default
 e.g. with the default settings...

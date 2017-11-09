@@ -8,8 +8,11 @@ module.exports = {
     debug_suffix: "'/>",
     dictionary: {
       en: {
-        module_language: "Language set to ",
-        module_thislang: "English",
+        module_language: ["Txty language set to "],
+        module_thislang: ["English"],
+        module_debug_start: ["###Txty debug mode is on. "],
+        module_debug_end: ["###Txty"],
+        module_settings: ["Settings are..."],
         module_test: "Test"
       }
     }
@@ -19,9 +22,8 @@ module.exports = {
   //initialise and override defaults with options
   init: function(options) {
     //set defaults
-    if (typeof options === "undefined") {
-      this.options = this.defaults;
-    } else {
+    this.options = this.defaults;
+    if (typeof options !== "undefined") {
       //or set supplied options
       for (var key in options) {
         if (options.hasOwnProperty(key)) {
@@ -34,9 +36,11 @@ module.exports = {
 
     //debugging
     if (this.options.debug) {
+      console.log(this.getItem("module_debug_start"));
       console.log(this.getItem("module_language") + this.getItem("module_thislang"));
-      console.log("Languages: options set");
-      console.log("Languages: Dictionary");
+      console.log(this.getItem("module_settings"));
+      console.dir(this.defaults);
+      console.log(this.getItem("module_debug_end"));
     }
     return;
   },
@@ -44,10 +48,10 @@ module.exports = {
   getItem: function(thisitem) {
     /* items in language files can be:
     *  type string (plain, debuggable items)
-    *  TODO type array (of 1 string) will not be modified during debugging, for use with e.g. URLs)
+    *  type array (of 1 string) will not be modified during debugging, for use with e.g. URLs)
     */
     var output = "";
-    if (thisitem.isArray) {
+    if (Array.isArray(this.txt[thisitem])) {
       return this.txt[thisitem][0];
     } else {
       if (this.options.debug) {
