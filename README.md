@@ -1,5 +1,8 @@
 # Txty
 
+[![Build Status](https://travis-ci.org/Swiftaff/txty.svg?branch=master)](https://travis-ci.org/Swiftaff/txty)
+[![Coverage Status](https://coveralls.io/repos/github/Swiftaff/txty/badge.svg?branch=master)](https://coveralls.io/github/Swiftaff/txty?branch=master)
+
 A basic language pack manager to make it easy to swap out all the text in your node.js app interface.
 
 It doesn't translate anything though :-) You will need to go get all the translations you need for your dictionary files yourself. There may be better alternatives out there, but this is a simple project with no bells and whistles.
